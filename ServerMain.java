@@ -9,6 +9,10 @@ public class ServerMain {
 	
 	public static void main(String[] args) {
 		
+		/*if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		
+		}*/
 		int IdServer = 0;
 		String registry = "localhost";
 

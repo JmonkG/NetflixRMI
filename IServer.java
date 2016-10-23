@@ -1,6 +1,9 @@
 package rmi.netflix.server;
 import java.rmi.Remote;
 
+
+import rmi.netflix.client.IClient;
+
 public interface IServer extends Remote {
 
 	public void setNextServer(IServer next_server) throws java.rmi.RemoteException;
@@ -12,15 +15,14 @@ public interface IServer extends Remote {
 	public int getElectedServer() throws java.rmi.RemoteException;
 	
 	public int getNumClients() throws java.rmi.RemoteException;
-	
-	public void addClient() throws java.rmi.RemoteException;
-	
+		
 	public void printServer() throws java.rmi.RemoteException;
 	
-	public void setNewClient() throws java.rmi.RemoteException;
+	public void setNewClient(IClient client) throws java.rmi.RemoteException;
 	
 	public void receiveMsg(Message aMsg) throws java.rmi.RemoteException;
 	
 	public void startElection() throws java.rmi.RemoteException;
+	public float getLoad() throws java.rmi.RemoteException;
 	
 }

@@ -1,13 +1,17 @@
 package rmi.netflix.server;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
 import java.util.concurrent.ThreadLocalRandom;
+
+
+import rmi.netflix.client.IClient;
 import rmi.netflix.server.Message;
 
 @SuppressWarnings("serial")
 
 public class Server extends UnicastRemoteObject implements IServer, Runnable {
-	
+	LinkedList<IClient> _clients;
 	public enum ElectionState {
 		NON_PARTICIPANT, PARTICIPANT
 	}
@@ -17,12 +21,15 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
 	int _elected_server;
 	boolean _startElec;
 	int _numclients;
+	private float load;
 	
 	public Server(int serverid) throws RemoteException {
 		super();
 		this._serverid = serverid;
-		this._numclients = ThreadLocalRandom.current().nextInt(0, 9 + 1);
+		this._numclients = 0;
 		this.initialize();
+		this._clients=new LinkedList<IClient>();
+		this.setLoad(0);
 	}
 	
 	private void initialize() {
@@ -53,9 +60,12 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
 		return _numclients;
 	}
 	@Override
-	public void setNewClient() throws java.rmi.RemoteException{
+	public void setNewClient(IClient client) throws java.rmi.RemoteException{
 		this._numclients+=1;
+		this._clients.add(client);
+		System.out.println("Client with ID" +client.get_clientid() + " is now my client.\nI have"+ this._numclients + "clients now");
 	}
+		
 	@Override
 	public int getServerID() throws RemoteException {
 		// TODO Auto-generated method stub
@@ -143,9 +153,11 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
 	public int getElectedServer() throws RemoteException{
 		return this._elected_server;
 	}
-	public void addClient() throws RemoteException{
-		this._numclients+=1;
-		System.out.println("I have one more client, my new client number is"+ this._numclients);
+		
+	public void removeClient(IClient client) throws RemoteException{
+		this._numclients-=1;
+		this._clients.remove(client);
+		System.out.println("Client with ID" +client.get_clientid() + " removed.\nI have"+ this._numclients + "clients now");
 	}
 	
 	
@@ -153,6 +165,14 @@ public class Server extends UnicastRemoteObject implements IServer, Runnable {
 		
 		while (true);
 		
+	}
+
+	public float getLoad() throws java.rmi.RemoteException{
+		return load;
+	}
+
+	public void setLoad(float load) {
+		this.load = load;
 	}
 
 }

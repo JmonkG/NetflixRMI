@@ -11,6 +11,9 @@ public class NetworkMain{
 	
 	public static void main(String[] args) throws RemoteException, MalformedURLException {
 			
+		//Security
+		
+		
 			int MaxNumServers = 0;
 			
 			try {
