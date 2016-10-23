@@ -1,0 +1,9 @@
+Cargar el Network
+java -classpath bin/ -Djava.rmi.server.codebase=file:/bin/ rmi.netflix.network.NetworkMain 4
+
+Cargar los servidores
+
+java -classpath bin/ -Djava.rmi.server.codebase=file:/bin/ rmi.netflix.server.ServerMain 1
+java -classpath bin/ -Djava.rmi.server.codebase=file:/bin/ rmi.netflix.server.ServerMain 2
+java -classpath bin/ -Djava.rmi.server.codebase=file:/bin/ rmi.netflix.server.ServerMain 3
+java -classpath bin/ -Djava.rmi.server.codebase=file:/bin/ rmi.netflix.server.ServerMain 4
